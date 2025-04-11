@@ -1,0 +1,12 @@
+{
+  "Authorization": "#(bearerToken)",
+  "Kroger-Application-Name": "#(Kroger_Application_Name)",
+  "X-Kroger-Tenant": "#(X_Kroger_Tenant)",
+  "X-Correlation-Id":"#(X_Correlation_Id)",
+  "True-Client-Ip":"#(True_Client_IP)",
+  "Kroger-Pos-Client-Id":"#(Kroger_Pos_Client_Id)",
+  "Content-Type":"#(Content_Type)",
+  "Content-Language":"#(Content_Language)",
+  "Idempotency-Key":"#(Idempotency_Key)",
+  "Accept-Language": "#(Accept_Language)"
+}

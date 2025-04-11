@@ -1,0 +1,7 @@
+{
+  "tenantId": "#(transaction_cosmos_db_tenantId)",
+  "endpoint": "#(transaction_cosmos_db_endpoint)",
+  "name":  "#(transaction_cosmos_db_name)",
+  "db_clientId": "#(transaction_cosmos_db_clientId)",
+  "db_secret": "#(transaction_cosmos_db_secret)"
+}

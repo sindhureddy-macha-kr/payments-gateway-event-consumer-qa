@@ -1,0 +1,123 @@
+group 'com.kroger.eps.payments.transactions'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+
+//sourceCompatibility = 11
+
+sourceSets {
+    test {
+        resources {
+            srcDir file('src/test/java')
+            exclude '**/*.java'
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
+repositories {
+    maven {
+        url "https://artifactory-edge.kroger.com/artifactory/libs-release"
+        credentials {
+            username = System.getenv("ARTIFACTORY_USER")
+            password = System.getenv("ARTIFACTORY_EDGE_PASSWORD")
+        }
+    }
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation("com.krogerqa.karate:karate-central-framework:2023.4.1")
+//    testImplementation 'com.krogerqa.karate:karate-central-framework:2023.4.1'
+    //implementation 'com.krogerqa.karate:karate-central-framework:2023.4.1'
+    //testImplementation('io.confluent:kafka-schema-registry-client:7.5.0')
+    implementation 'io.confluent:kafka-schema-registry-client:7.5.0'
+    testImplementation("io.confluent:kafka-avro-serializer:7.9.0")
+    testImplementation('org.awaitility:awaitility:4.2.1')
+    testImplementation('com.kroger.desp-utilities:azure-oauth:4.8.1')
+    testImplementation("com.kroger.desp-catalog.payments:giftcard-management:1.0.0")
+   // testImplementation("io.projectreactor.kafka:reactor-kafka:1.3.22")
+//    implementation 'io.projectreactor.kafka:reactor-kafka:1.3.22'
+    //testImplementation("org.assertj:assertj-core:3.26.3")
+   // testImplementation 'org.assertj:assertj-core:3.25.3'
+//    testImplementation 'org.assertj:assertj-core:3.26.3'
+    testImplementation ("com.azure:azure-identity:1.11.2")
+   // testImplementation 'com.intuit.karate:karate-junit4:1.4.1'
+    //testImplementation 'com.intuit.karate:karate-junit5:1.4.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+}
+
+configurations {
+    all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+}
+
+//task testAddBankCardVerification (type: Test){
+//    systemProperty 'env', System.properties['env']
+//    systemProperty 'host_url', System.properties['host_url']
+//    systemProperty 'basic_Auth', System.properties['basic_Auth']
+//    systemProperty 'oauth_clientSecret', System.properties['oauth_clientSecret']
+//    testLogging.showStandardStreams = true
+//    useTestNG(){
+//        suites 'src/test/resources/add-testng.xml'
+//    }
+//    reports.html.destination = file("$buildDir/reports/testng")
+//}
+
+//task testUpdateBankCardVerification (type: Test){
+//    systemProperty 'env', System.properties['env']
+//    systemProperty 'host_url', System.properties['host_url']
+//    systemProperty 'basic_Auth', System.properties['basic_Auth']
+//    systemProperty 'oauth_clientSecret', System.properties['oauth_clientSecret']
+//    testLogging.showStandardStreams = true
+//    useTestNG(){
+//        suites 'src/test/resources/update-testng.xml'
+//    }
+//    reports.html.destination = file("$buildDir/reports/testng")
+//}
+
+task testReturning (type: Test){
+    useJUnitPlatform()
+    systemProperty "karate.options", System.properties.getProperty("karate.options")
+    systemProperty "env", System.properties.getProperty("env")
+    systemProperty "karate.env", System.properties.getProperty("karate.env")
+    systemProperty 'host_url', System.properties.getProperty('host_url')
+    systemProperty 'client_id', System.properties.getProperty('client_id')
+    systemProperty 'client_secret', System.properties.getProperty('client_secret')
+    systemProperty 'task', '@testReturn'
+    outputs.upToDateWhen { false }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:unchecked'
+    options.deprecation = true
+}
+
+
+
+
+//sourceCompatibility = 1.17
+//
+//def artUsername = project.hasProperty('artUsername') ? project.property('artUsername') : ""
+//def artEdgePassword = project.hasProperty('artEdgePassword') ? project.property('artEdgePassword') : ""
+
+//repositories {
+//    maven {
+//        url "https://artifactory-edge.kroger.com/artifactory/libs-release"
+//        credentials {
+//            username artUsername
+//            password artEdgePassword
+//        }
+//    }
+//}
+
+
+
+
+
